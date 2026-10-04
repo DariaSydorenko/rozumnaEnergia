@@ -654,6 +654,14 @@ services:
     restart: always
   # [Кінець] Сидоренко Дар'я Володимирівна
 
+  # [Початок] Червоний Андрій — Adaptive Climate Control
+  adaptive-climate-backend:
+    image: freezmain/adaptive-climate-backend:latest
+    ports:
+      - "6016:6001"
+    restart: unless-stopped
+  # [Кінець] Червоний Андрій — Adaptive Climate Control
+
 networks:
   default:
     driver: bridge
