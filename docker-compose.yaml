@@ -84,6 +84,19 @@ services:
   # END Гончаренко Микита
 
 
+  #START Гойчук 
+  backend-hoichuk:
+    image: sashahoychuk/energybalance-hoichuk:latest
+    ports:
+      - "6049:8000"
+    restart: unless-stopped
+    environment:
+      DATA_DIR: /data
+      CORS_ORIGINS: http://77.47.192.6:5173,http://localhost:5173
+    volumes:
+      - hoichuk_data:/data
+  #END Гойчук 
+
 
 # [Початок] Монастирний Моніторинг
   # [Початок] Монастирний Моніторинг
@@ -683,6 +696,7 @@ volumes:
   zt_stelmakh_pg:
   zt_stelmakh_redis:
   zt_stelmakh_models:
+  hoichuk_data:
 
   cybersecurity-data:
     name: smartenergy-cybersecurity-data

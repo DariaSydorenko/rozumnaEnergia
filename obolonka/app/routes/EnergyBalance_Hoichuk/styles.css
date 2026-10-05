@@ -1,0 +1,115 @@
+/* Стилі діють лише всередині .eb-app, щоб не впливати на інші сторінки спільного проєкту */
+.eb-app {
+  --eb-bg: #f3f6f4;
+  --eb-surface: #ffffff;
+  --eb-text: #1b2a22;
+  --eb-muted: #6b7a72;
+  --eb-border: #e3e9e5;
+  --eb-green: #1f9d63;
+  --eb-green-dark: #0f6b42;
+  --eb-solar: #f59f00;
+  --eb-wind: #1c7ed6;
+  --eb-load: #e03131;
+  --eb-grid: #2f9e44;
+  --eb-battery: #7048e8;
+  --eb-radius: 16px;
+  background: var(--eb-bg);
+  color: var(--eb-text);
+  min-height: 100vh;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+/* ---------- Шапка ---------- */
+.eb-app .eb-header {
+  background: linear-gradient(120deg, var(--eb-green-dark), var(--eb-green) 60%, #35c47f);
+  color: #fff;
+  box-shadow: 0 4px 18px rgba(15, 107, 66, 0.25);
+}
+.eb-app .eb-brand { display: flex; align-items: center; gap: 0.6rem; font-weight: 700; font-size: 1.25rem; letter-spacing: 0.2px; }
+.eb-app .eb-brand svg { width: 30px; height: 30px; }
+.eb-app .eb-live {
+  display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.75rem; font-weight: 600;
+  background: rgba(255, 255, 255, 0.18); border-radius: 999px; padding: 0.2rem 0.65rem;
+}
+.eb-app .eb-live::before {
+  content: ""; width: 8px; height: 8px; border-radius: 50%; background: #b8ffd6;
+  box-shadow: 0 0 0 0 rgba(184, 255, 214, 0.7); animation: eb-pulse 1.8s infinite;
+}
+@keyframes eb-pulse {
+  70% { box-shadow: 0 0 0 8px rgba(184, 255, 214, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(184, 255, 214, 0); }
+}
+.eb-app .eb-tabs { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.eb-app .eb-tab {
+  color: rgba(255, 255, 255, 0.85); text-decoration: none; padding: 0.45rem 0.9rem; border-radius: 999px;
+  font-weight: 500; font-size: 0.92rem; transition: background 0.15s, color 0.15s;
+}
+.eb-app .eb-tab:hover { background: rgba(255, 255, 255, 0.15); color: #fff; }
+.eb-app .eb-tab.active { background: #fff; color: var(--eb-green-dark); font-weight: 600; }
+.eb-app .eb-back {
+  color: #fff; border: 1px solid rgba(255, 255, 255, 0.55); border-radius: 999px; padding: 0.35rem 0.9rem;
+  font-size: 0.85rem; text-decoration: none; transition: background 0.15s;
+}
+.eb-app .eb-back:hover { background: rgba(255, 255, 255, 0.15); color: #fff; }
+
+/* ---------- Заголовки ---------- */
+.eb-app .eb-page-title { font-size: 1.6rem; font-weight: 700; margin: 0; }
+.eb-app .eb-page-sub { color: var(--eb-muted); margin: 0.2rem 0 0; font-size: 0.95rem; }
+.eb-app .eb-section-title { font-size: 1.05rem; font-weight: 600; margin: 1.6rem 0 0.8rem; }
+
+/* ---------- Картки ---------- */
+.eb-app .card, .eb-app .eb-card {
+  background: var(--eb-surface); border: 1px solid var(--eb-border); border-radius: var(--eb-radius);
+  box-shadow: 0 2px 10px rgba(27, 42, 34, 0.04);
+}
+.eb-app .eb-stat { position: relative; overflow: hidden; height: 100%; padding: 1.05rem 1.15rem 1.05rem 1.35rem; transition: transform 0.15s, box-shadow 0.15s; }
+.eb-app .eb-stat:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(27, 42, 34, 0.09); }
+.eb-app .eb-stat::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 5px; background: var(--eb-accent, var(--eb-green)); }
+.eb-app .eb-stat-top { display: flex; align-items: center; justify-content: space-between; gap: 0.5rem; }
+.eb-app .eb-stat-label { color: var(--eb-muted); font-size: 0.82rem; font-weight: 500; }
+.eb-app .eb-stat-icon {
+  width: 34px; height: 34px; flex: none; border-radius: 10px; display: grid; place-items: center; font-size: 1.05rem;
+  background: color-mix(in srgb, var(--eb-accent, var(--eb-green)) 14%, white);
+}
+.eb-app .eb-stat-value { font-size: 1.6rem; font-weight: 700; line-height: 1.2; margin-top: 0.35rem; font-variant-numeric: tabular-nums; }
+.eb-app .eb-stat-unit { font-size: 0.85rem; font-weight: 500; color: var(--eb-muted); margin-left: 0.2rem; }
+.eb-app .eb-stat-value.positive { color: var(--eb-grid); }
+.eb-app .eb-stat-value.negative { color: var(--eb-load); }
+
+/* ---------- Батарея ---------- */
+.eb-app .eb-battery { padding: 1.2rem 1.3rem; height: 100%; }
+.eb-app .eb-battery-bar { position: relative; height: 26px; border-radius: 999px; background: #edf0ee; overflow: hidden; margin: 0.8rem 0 0.5rem; }
+.eb-app .eb-battery-fill { height: 100%; border-radius: 999px; transition: width 0.6s ease; }
+.eb-app .eb-battery-fill.ok { background: linear-gradient(90deg, #35c47f, #1f9d63); }
+.eb-app .eb-battery-fill.mid { background: linear-gradient(90deg, #ffd43b, #f59f00); }
+.eb-app .eb-battery-fill.low { background: linear-gradient(90deg, #ff8787, #e03131); }
+.eb-app .eb-battery-mark { position: absolute; top: 0; bottom: 0; width: 2px; background: rgba(27, 42, 34, 0.55); }
+.eb-app .eb-battery-percent { font-size: 2.1rem; font-weight: 700; font-variant-numeric: tabular-nums; }
+.eb-app .eb-battery-note { color: var(--eb-muted); font-size: 0.82rem; }
+
+/* ---------- Графіки, таблиця, форми ---------- */
+.eb-app .eb-chart-title { font-size: 0.98rem; font-weight: 600; margin-bottom: 0.9rem; }
+.eb-app .table { --bs-table-bg: transparent; margin-bottom: 0; }
+.eb-app .table thead th {
+  background: #f6f9f7; color: var(--eb-muted); font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.4px;
+  border-bottom: 1px solid var(--eb-border); position: sticky; top: 0; font-weight: 600;
+}
+.eb-app .table td { font-variant-numeric: tabular-nums; }
+.eb-app .form-control, .eb-app .form-select { border-radius: 10px; border-color: #d3dcd7; }
+.eb-app .form-control:focus, .eb-app .form-select:focus, .eb-app .form-check-input:focus {
+  border-color: var(--eb-green); box-shadow: 0 0 0 0.2rem rgba(31, 157, 99, 0.2);
+}
+.eb-app .form-check-input:checked { background-color: var(--eb-green); border-color: var(--eb-green); }
+.eb-app .btn-success { background: var(--eb-green); border-color: var(--eb-green); border-radius: 10px; padding: 0.55rem 1.4rem; font-weight: 600; }
+.eb-app .btn-success:hover { background: var(--eb-green-dark); border-color: var(--eb-green-dark); }
+.eb-app .pagination .page-link { color: var(--eb-green-dark); border-radius: 8px; margin: 0 2px; border-color: var(--eb-border); }
+.eb-app .pagination .active .page-link { background: var(--eb-green); border-color: var(--eb-green); color: #fff; }
+.eb-app .alert { border-radius: 12px; border: none; }
+.eb-app .eb-event { display: flex; gap: 0.8rem; align-items: baseline; padding: 0.7rem 1.1rem; border-bottom: 1px solid var(--eb-border); }
+.eb-app .eb-event:last-child { border-bottom: none; }
+.eb-app .eb-event-time { color: var(--eb-muted); font-size: 0.8rem; font-variant-numeric: tabular-nums; flex: none; }
+
+@media (max-width: 575px) {
+  .eb-app .eb-page-title { font-size: 1.35rem; }
+  .eb-app .eb-stat-value { font-size: 1.3rem; }
+}

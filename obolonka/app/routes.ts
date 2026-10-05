@@ -70,6 +70,13 @@ export default [
 
   route("telemetry-security-medvediev", "routes/TelemetrySecurity_Medvediev/App.jsx"),
 
+  route("energy-balance-hoichuk", "routes/EnergyBalance_Hoichuk/App.tsx", [
+    index("routes/EnergyBalance_Hoichuk/pages/DashboardPage.tsx"),
+    route("current", "routes/EnergyBalance_Hoichuk/pages/CurrentPage.tsx"),
+    route("history", "routes/EnergyBalance_Hoichuk/pages/HistoryPage.tsx"),
+    route("analytics", "routes/EnergyBalance_Hoichuk/pages/AnalyticsPage.tsx"),
+    route("settings", "routes/EnergyBalance_Hoichuk/pages/SettingsPage.tsx"),
+  ]),
   route(
     "adaptive-climate-Chervonyi",
     "routes/AdaptiveClimate_Chervonyi/index.tsx"
