@@ -77,5 +77,9 @@ export default [
     route("analytics", "routes/EnergyBalance_Hoichuk/pages/AnalyticsPage.tsx"),
     route("settings", "routes/EnergyBalance_Hoichuk/pages/SettingsPage.tsx"),
   ]),
+  route(
+    "adaptive-climate-Chervonyi",
+    "routes/AdaptiveClimate_Chervonyi/index.tsx"
+  ),
 
 ] satisfies RouteConfig;
