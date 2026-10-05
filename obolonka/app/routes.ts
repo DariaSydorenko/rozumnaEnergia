@@ -70,4 +70,9 @@ export default [
 
   route("telemetry-security-medvediev", "routes/TelemetrySecurity_Medvediev/App.jsx"),
 
+  route(
+    "adaptive-climate-Chervonyi",
+    "routes/AdaptiveClimate_Chervonyi/index.tsx"
+  ),
+
 ] satisfies RouteConfig;
