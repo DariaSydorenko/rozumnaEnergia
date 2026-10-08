@@ -38,18 +38,67 @@ services:
       - "6050:6050"
     restart: always
 
-  pokazovaSlurzba:
-    image: bondarenkorodion/slurzba1
-    ports:
-      - "3000:3000"
-    networks:
-      - mererza
-
   smartenergy-backend:
     image: puvlichok/smartenergy-backend
     ports:
       - "6007:6007"
 
+
+# START Гончаренко Микита (IoT Dashboard & ML)
+  backend-iot-honcharenko:
+    image: nikitatoser/smartenergy-iot:latest
+    container_name: smart_energy_api_honcharenko
+    ports:
+      - "6018:8000"
+    environment:
+      - TZ=Europe/Berlin
+      - INFLUX_URL=http://influxdb:8086
+      - INFLUX_TOKEN=secretpassword_smartenergy6
+      - INFLUX_ORG=KPI
+      - INFLUX_BUCKET=smart_energy
+      - MQTT_BROKER=broker.hivemq.com
+      - MQTT_PORT=1883
+    depends_on:
+      - influxdb
+    restart: unless-stopped
+
+  backend-ml-honcharenko:
+    image: nikitatoser/smartenergy-ml:latest
+    container_name: smart_energy_ml_api_honcharenko
+    ports:
+      - "6118:8000"
+    environment:
+      - TZ=Europe/Berlin
+      - INFLUX_URL=http://influxdb:8086
+      - INFLUX_TOKEN=secretpassword_smartenergy6
+      - INFLUX_ORG=KPI
+      - INFLUX_BUCKET=smart_energy
+      - MQTT_BROKER=broker.hivemq.com
+      - MQTT_PORT=1883
+      - LAT=52.52
+      - LON=13.40
+      - TEST_MODE=True
+    depends_on:
+      - influxdb
+    restart: unless-stopped
+  # END Гончаренко Микита
+
+
+  #START Гойчук 
+  backend-hoichuk:
+    image: sashahoychuk/energybalance-hoichuk:latest
+    ports:
+      - "6049:8000"
+    restart: unless-stopped
+    environment:
+      DATA_DIR: /data
+      CORS_ORIGINS: http://77.47.192.6:5173,http://localhost:5173
+    volumes:
+      - hoichuk_data:/data
+  #END Гойчук 
+
+
+# [Початок] Монастирний Моніторинг
   # [Початок] Монастирний Моніторинг
   influxdb:
     image: influxdb:2-alpine
@@ -321,10 +370,11 @@ services:
       CORS_ORIGINS: http://77.47.192.6:5173,http://localhost:5173
       FRONTEND_URL: http://77.47.192.6:5173/zero-trust-Stelmakh
       TRUST_SCORE_THRESHOLD: "0.7"
-      SMTP_HOST: smtp.gmail.com
-      SMTP_PORT: "587"
+      SMTP_HOST: "${ZT_STELMAKH_SMTP_HOST:-smtp.ukr.net}"
+      SMTP_PORT: "${ZT_STELMAKH_SMTP_PORT:-465}"
       SMTP_USER: "${ZT_STELMAKH_SMTP_USER:-}"
       SMTP_PASSWORD: "${ZT_STELMAKH_SMTP_PASSWORD:-}"
+      SMTP_FROM: "${ZT_STELMAKH_SMTP_FROM:-}"
       EMAIL_FALLBACK_LOG_CODES: "true"
       BOOTSTRAP_ADMIN_USERNAME: "${ZT_STELMAKH_ADMIN_USERNAME:-admin}"
       BOOTSTRAP_ADMIN_EMAIL: "${ZT_STELMAKH_ADMIN_EMAIL:-}"
@@ -618,6 +668,14 @@ services:
     restart: always
   # [Кінець] Сидоренко Дар'я Володимирівна
 
+  # [Початок] Червоний Андрій — Adaptive Climate Control
+  adaptive-climate-backend:
+    image: freezmain/adaptive-climate-backend:latest
+    ports:
+      - "6016:6001"
+    restart: unless-stopped
+  # [Кінець] Червоний Андрій — Adaptive Climate Control
+
 networks:
   default:
     driver: bridge
@@ -639,6 +697,7 @@ volumes:
   zt_stelmakh_pg:
   zt_stelmakh_redis:
   zt_stelmakh_models:
+  hoichuk_data:
 
   cybersecurity-data:
     name: smartenergy-cybersecurity-data
